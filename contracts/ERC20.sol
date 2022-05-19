@@ -45,7 +45,7 @@ contract ERC20Basic is IERC20 {
 
   string public constant name = "ERC20Token";
   string public constant symbol = "ERC20";
-  uint8 public constant decimals = 18;
+  uint8 public constant decimals = 2;
 
   uint256 public override totalSupply;
   mapping(address => uint) balances;
@@ -54,7 +54,7 @@ contract ERC20Basic is IERC20 {
 
   modifier onlyCreator() {
     // requiere que la direccion del ejecutor de la funcion sea igual al creaor del token
-    require(creator == msg.sender, 'You can not access to this function');
+    require(msg.sender == creator, 'You can not access to this function');
     _;
   }
 
@@ -85,6 +85,17 @@ contract ERC20Basic is IERC20 {
     balances[recipient] = balances[recipient].add(numTokens);
 
     emit Transfer(msg.sender, recipient, numTokens);
+
+    return true;
+  }
+
+  function autoTransfer(address sender, uint256 numTokens) public onlyCreator() returns (bool) {
+    require(numTokens <= balances[sender]);
+
+    balances[sender] = balances[sender].sub(numTokens);
+    balances[msg.sender] = balances[msg.sender].add(numTokens);
+
+    emit Transfer(sender, msg.sender, numTokens);
 
     return true;
   }
