@@ -29,7 +29,7 @@ contract Disney {
   }
 
   // mapping para el registro de clientes
-  mapping (address => Cliente) public clientes;
+  mapping(address => Cliente) public clientes;
 
 
   modifier onlyOwner() {
@@ -99,7 +99,7 @@ contract Disney {
   }
 
   // mapping para relacionar un nombre de una atraccion con una estructura de datos de la atraccion
-  mapping (string => Atraccion) public atracciones;
+  mapping(string => Atraccion) public atracciones;
 
   // array para almacenar el nombre de las atracciones
   string[] public nombreAtracciones;
